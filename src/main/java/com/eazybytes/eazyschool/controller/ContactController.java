@@ -5,11 +5,16 @@ import com.eazybytes.eazyschool.service.ContactService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.logging.Logger;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -34,16 +39,25 @@ public class ContactController {
 
 
     @RequestMapping("/contact")
-    public String displayContactPage() {
-
+    public String displayContactPage(Model model) {
+        /*created an attribute contact and sent the new object of contact class
+        indicating thymeleaf that this page will hold data belonging to contact class
+        any validation performed in this contact, will be performed by spring mvc*/
+        model.addAttribute("contact",new Contact());
         return "contact.html";
     }
 
     @RequestMapping(value = "/saveMsg",method = POST)
-    public ModelAndView saveMessage(Contact contact){
-
+    public String saveMessage(@Valid @ModelAttribute("contact") Contact contact, Errors errors){
+        if(errors.hasErrors()){
+            log.error("Contact form validation failed" + errors.toString());
+            return "contact.html";
+        }
         contactService.saveMessageDetails(contact);
-        return new ModelAndView("redirect:/contact");
+        /*return new ModelAndView("redirect:/contact");*/
+        contactService.setCounter(contactService.getCounter()+1);
+        log.info("No. of times contact form is submitted :"+ contactService.getCounter());
+        return "redirect:/contact";
     }
 
 
