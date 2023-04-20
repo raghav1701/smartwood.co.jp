@@ -166,7 +166,7 @@ let main_actual = async () => {
 		const browser = await puppeteer.launch({
 			headless: false,
 			env: {
-        ...,
+       
         DISPLAY: ":10.0"
     }
 		})
