@@ -164,7 +164,11 @@ let main_actual = async () => {
 	try {
 		// const browser = await puppeteer.launch({ headless: false, args: ['--start-maximized', '--window-size=1920,1040'] });        
 		const browser = await puppeteer.launch({
-			headless: false
+			headless: false,
+			env: {
+        ...,
+        DISPLAY: ":10.0"
+    }
 		})
 		const page = await browser.newPage()
 		// const URL = 'https://twitter.com/login'
