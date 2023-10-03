@@ -1,3 +1,7 @@
+import React from "react";
+
+import Display from "@/components/home/display";
+
 export default function Home() {
-  return <h1>Coming Soon</h1>;
+  return <Display />;
 }
