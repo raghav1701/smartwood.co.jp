@@ -633,3 +633,9 @@
   color: black; /* Red color for the specified words within the <span> elements */
   font-weight: bold;
 }
+
+.horizontal-images .col-lg-6 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
